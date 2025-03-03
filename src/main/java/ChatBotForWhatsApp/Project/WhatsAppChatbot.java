@@ -1,8 +1,16 @@
+package ChatBotForWhatsApp.Project;
+
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.springframework.web.client.RestTemplate;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class WhatsAppChatbot extends TelegramLongPollingBot {
 
@@ -30,17 +38,27 @@ public class WhatsAppChatbot extends TelegramLongPollingBot {
     }
 
     private String getAIResponse(String message) {
-        String url = "http://localhost:5000/chat";  // Ollama API URL
-        return restTemplate.postForObject(url, "{\"message\": \"" + message + "\"}", String.class);
+        String url = "http://localhost:8080/chat"; // Spring Boot API URL
+
+        Map<String, String> request = new HashMap<>();
+        request.put("message", message);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-Type", "application/json");
+
+        HttpEntity<Map<String, String>> entity = new HttpEntity<>(request, headers);
+        ResponseEntity<String> response = restTemplate.postForEntity(url, entity, String.class);
+
+        return response.getBody();
     }
 
     @Override
     public String getBotUsername() {
-        return "my_chat_bot";
+        return "harshitsak_bot";
     }
 
     @Override
     public String getBotToken() {
-        return "YOUR_BOT_TOKEN_HERE";
+        return "7514451867:AAGb4uy65A8pi1xaeZ7qVfsb736uT6-Tr1E";
     }
 }
