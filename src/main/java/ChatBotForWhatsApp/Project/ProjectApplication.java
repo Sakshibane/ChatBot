@@ -10,7 +10,7 @@ import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 public class ProjectApplication {
 
 	public static void main(String[] args) {
-		//SpringApplication.run(ProjectApplication.class, args);
+		SpringApplication.run(ProjectApplication.class, args);
 		try {
 			TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
 			botsApi.registerBot(new WhatsAppChatbot());
